@@ -14,7 +14,7 @@
         <div class="col">
             <button class="btn btn-primary float-end"
                     onclick="location.href='boardAdd.html'"
-                    th:onclick="|location.href='@{/view/boardAdd}'|">글 등록</button>
+                    th:onclick="|location.href='@{/view/add}'|">글 등록</button>
         </div>
     </div>
     <hr class="my-4">
@@ -22,16 +22,16 @@
         <table class="table">
             <thead>
             <tr>
-                <th>No</th>
+                <th style="width: 20%">No</th>
                 <th>제목</th>
-                <th>날짜</th>
+                <th style="width: 30%">날짜</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
                 <td th:text="${board.no}">1</td>
-                <td><a href="boardContents.html" th:href="@{|board/${board.no}|}" th:text="${board.title}">글제목</a></td>
-                <td th:text="${board.date}">20210101</td>
+                <td><a href="boardContents.html" th:href="@{|boardContents/${board.no}|}" th:text="${board.title}">글제목</a></td>
+                <td th:text="${board.date}">날짜</td>
             </tr>
             </tbody>
         </table>
