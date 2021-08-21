@@ -30,7 +30,7 @@
             <tbody>
             <tr th:each="board : ${boards}">
                 <td th:text="${board.no}">1</td>
-                <td><a href="boardContents.html" th:href="@{|boardContents/${board.no}|}" th:text="${board.title}">글제목</a></td>
+                <td><a href="boardContents.html" th:href="@{|board/${board.no}|}" th:text="${board.title}">글제목</a></td>
                 <td th:text="${board.date}">날짜</td>
             </tr>
             </tbody>
