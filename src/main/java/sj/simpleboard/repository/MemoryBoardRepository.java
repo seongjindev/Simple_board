@@ -1,14 +1,17 @@
 package sj.simpleboard.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import sj.simpleboard.domain.Board;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Repository
 public class MemoryBoardRepository implements BoardRepository { //command + shift + T 테스트 코드
 
@@ -18,6 +21,8 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
     @Override
     public Board save(Board board) {
         board.setNo(++sequence);
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
+        board.setDate(now);
         store.put(board.getNo(), board);
         return board;
     }
