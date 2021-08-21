@@ -9,6 +9,8 @@ import sj.simpleboard.repository.BoardRepository;
 import sj.simpleboard.repository.MemoryBoardRepository;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -29,7 +31,7 @@ public class BoardController {
         return "view/board";
     }
 
-    @GetMapping("/boardContents/{boardNo}")
+    @GetMapping("/board/{boardNo}")
     public String boardDetail(@PathVariable long boardNo, Model model) {
         Board board = boardRepository.findByNo(boardNo);
         model.addAttribute("board", board);
@@ -42,9 +44,29 @@ public class BoardController {
     }
 
     @PostMapping("/add")
-    public String boardAdd(@ModelAttribute Board board) {
+    public String boardAdd(@ModelAttribute Board board, Model model) {
         boardRepository.save(board);
-        return "view/board";
+        model.addAttribute("board", board);
+        return "redirect:/view/board/" + board.getNo();
+    }
+
+    @GetMapping("/{boardNo}/edit")
+    public String boardEditForm(@PathVariable long boardNo, Model model) {
+        Board board = boardRepository.findByNo(boardNo);
+        model.addAttribute("board", board);
+        return "view/boardEdit";
+    }
+
+    @PostMapping("/{boardNo}/edit")
+    public String edit(@PathVariable long boardNo,
+                        @ModelAttribute Board board
+    ) {
+        Board beBoard = boardRepository.findByNo(boardNo);
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
+        beBoard.setTitle(board.getTitle());
+        beBoard.setContents(board.getContents());
+        beBoard.setDate(now);
+        return "redirect:/view/board/{boardNo}";
     }
 
 
