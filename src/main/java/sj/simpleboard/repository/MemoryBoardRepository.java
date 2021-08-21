@@ -4,9 +4,10 @@ import org.springframework.stereotype.Repository;
 import sj.simpleboard.domain.Board;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Repository
 public class MemoryBoardRepository implements BoardRepository { //command + shift + T 테스트 코드
@@ -34,9 +35,14 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
         findNo.setContents(updateParam.getContents());
         findNo.setDate(now);
     }
+    @Override
+    public List<Board> findAll() {
+        return new ArrayList<>(store.values());
+    }
 
     @Override
     public void clearStore() {
         store.clear();
     }
+
 }
