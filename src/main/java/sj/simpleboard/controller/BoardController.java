@@ -1,11 +1,9 @@
 package sj.simpleboard.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import sj.simpleboard.domain.Board;
 import sj.simpleboard.repository.BoardRepository;
 import sj.simpleboard.repository.MemoryBoardRepository;
@@ -15,6 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/view")
+@Slf4j
 public class BoardController {
 
     private final BoardRepository boardRepository;
@@ -30,6 +29,13 @@ public class BoardController {
         return "view/board";
     }
 
+    @GetMapping("/boardContents/{boardNo}")
+    public String boardDetail(@PathVariable long boardNo, Model model) {
+        Board board = boardRepository.findByNo(boardNo);
+        model.addAttribute("board", board);
+        return "view/boardContents";
+    }
+
     @GetMapping("/add")
     public String boardForm() {
         return "view/boardAdd";
@@ -38,7 +44,7 @@ public class BoardController {
     @PostMapping("/add")
     public String boardAdd(@ModelAttribute Board board) {
         boardRepository.save(board);
-        return "view/boardContents";
+        return "view/board";
     }
 
 
