@@ -3,6 +3,8 @@ package sj.simpleboard.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sj.simpleboard.domain.Board;
 import sj.simpleboard.repository.BoardRepository;
@@ -27,6 +29,18 @@ public class BoardController {
         model.addAttribute("boards", boards);
         return "view/board";
     }
+
+    @GetMapping("/add")
+    public String boardForm() {
+        return "view/boardAdd";
+    }
+
+    @PostMapping("/add")
+    public String boardAdd(@ModelAttribute Board board) {
+        boardRepository.save(board);
+        return "view/boardContents";
+    }
+
 
     @PostConstruct
     public void init() {
