@@ -9,6 +9,6 @@ https://start.spring.io/
   + Dependencies : Spring Web, Thymeleaf, Lombok
 
 + 기능
-  + 게시물 작성
-  + 게시물 수정
+  + 게시물 작성 - 20210821
+  + 게시물 수정 - 20210821
   + 게시물 삭제
