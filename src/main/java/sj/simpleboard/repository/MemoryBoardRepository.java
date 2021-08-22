@@ -46,6 +46,11 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
     }
 
     @Override
+    public void delete(Long no) {
+        store.remove(no);
+    }
+
+    @Override
     public void clearStore() {
         store.clear();
     }
