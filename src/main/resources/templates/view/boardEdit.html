@@ -37,9 +37,14 @@
                 </button>
             </div>
             <div class="col">
+                <button class="w-100 btn btn-primary btn-lg"
+                        th:onclick="|location.href='@{/view/{boardNo}/delete(boardNo=${board.no})}'|"
+                        type="button">삭제</button>
+            </div>
+            <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='board.html'"
-                        th:onclick="|location.href='@{/view/board}'|" type="button">취소</button>
+                        th:onclick="|location.href='@{/view/board/{boardNo}(boardNo=${board.no})}'|" type="button">취소</button>
             </div>
         </div>
     </form>
