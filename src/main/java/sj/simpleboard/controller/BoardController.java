@@ -78,8 +78,8 @@ public class BoardController {
 
     @PostConstruct
     public void init() {
-        Board board1 = new Board("글제목1", "내용1", "날짜1");
-        Board board2 = new Board("글제목2", "내용2", "날짜2");
+        Board board1 = new Board("글제목1", "내용1", "날짜1","testId1", "1234");
+        Board board2 = new Board("글제목2", "내용2", "날짜2", "testId2", "2345");
         boardRepository.save(board1);
         boardRepository.save(board2);
     }
