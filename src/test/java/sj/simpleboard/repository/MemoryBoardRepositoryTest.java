@@ -29,6 +29,18 @@ class MemoryBoardRepositoryTest {
     }
 
     @Test
+    void save2() {
+        //given
+        Board board = new Board("title", "contents", "2020","testId", "1234");
+        //when
+        Board saveBoard = boardRepository.save(board);
+        //than
+        Board findBoard = boardRepository.findByNo(board.getNo());
+        assertThat(findBoard.getConId()).isEqualTo(saveBoard.getConId());
+        assertThat(findBoard.getConPwd()).isEqualTo(saveBoard.getConPwd());
+    }
+
+    @Test
     void update() {
         //given
         Board board1 = new Board("title11", "contents11", "2020");
