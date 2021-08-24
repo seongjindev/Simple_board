@@ -8,6 +8,8 @@ public class Board {
     private String title;
     private String contents;
     private String date;
+    private String conId;
+    private String conPwd;
 
     public Board() {
     }
@@ -16,5 +18,13 @@ public class Board {
         this.title = title;
         this.contents = contents;
         this.date = date;
+    }
+
+    public Board(String title, String contents, String date, String conId, String conPwd) {
+        this.title = title;
+        this.contents = contents;
+        this.date = date;
+        this.conId = conId;
+        this.conPwd = conPwd;
     }
 }
