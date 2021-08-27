@@ -46,8 +46,14 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
     }
 
     @Override
-    public void delete(Long no) {
-        store.remove(no);
+    public boolean delete(Long no, String conPwd) {
+        Board board = store.get(no);
+        if(board.getConPwd().equals(conPwd)){
+            store.remove(no);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override

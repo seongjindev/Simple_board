@@ -10,6 +10,6 @@ public interface BoardRepository {
     Board findByNo(Long no);
     List<Board> findAll();
     void update(Long no, Board updateParam);
-    void delete(Long no);
+    boolean delete(Long no, String conPwd);
     void clearStore();
 }
