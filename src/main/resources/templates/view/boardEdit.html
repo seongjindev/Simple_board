@@ -15,6 +15,8 @@
     <div class="py-5 text-center">
         <h2>글 수정</h2>
     </div>
+    <!-- 추가 -->
+    <h2 th:if="${param.status}" th:text="'비밀번호가 틀렸습니다'"></h2>
     <form action="boardContents.html" th:action="|/view/${board.no}/edit|" method="post">
         <div>
             <label for="no">No</label>
@@ -22,8 +24,18 @@
                    readonly>
         </div>
         <div>
+            <p>
             <label for="title">글 제목</label>
             <input type="text" id="title" name="title" class="form-control" value="제목" th:value="${board.title}">
+            </p>
+        </div>
+        <div>
+            <div style="display:inline">
+                <label for="conId" style="width: 10%; text-align: center; height:30px" >아이디</label>
+                <input style="width:30%;display:inline-block; height:30px" type="text" id="conId" th:value="${board.conId}" class="form-control" placeholder="아이디을 입력하세요">
+                <label for="conPwd" style="width: 15%; text-align: center; height:30px">비밀번호</label>
+                <input style="width:40%;display:inline-block; height:30px" type="password" id="conPwd" name="conPwd" class="form-control" placeholder="">
+            </div>
         </div>
         <div>
             <label for="contents">글 내용</label>
@@ -38,8 +50,9 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg"
-                        th:onclick="|location.href='@{/view/{boardNo}/delete(boardNo=${board.no})}'|"
-                        type="button">삭제</button>
+                        th:formaction="@{/view/{boardNo}/delete(boardNo=${board.no})}"
+                        type="submit">삭제</button>
+                        <!--th:onclick="|location.href='@{/view/{boardNo}/delete(boardNo=${board.no})}'|"-->
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
