@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sj.simpleboard.domain.Board;
 import sj.simpleboard.repository.BoardRepository;
 import sj.simpleboard.repository.MemoryBoardRepository;
@@ -11,6 +12,9 @@ import sj.simpleboard.repository.MemoryBoardRepository;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -23,6 +27,7 @@ public class BoardController {
     public BoardController(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
+
 
     @GetMapping("/board")
     public String board(Model model) {
@@ -69,10 +74,18 @@ public class BoardController {
         return "redirect:/view/board/{boardNo}";
     }
 
-    @GetMapping("/{boardNo}/delete")
-    public String delete(@PathVariable long boardNo) {
-        boardRepository.delete(boardNo);
-        return "redirect:/view/board";
+    @PostMapping("/{boardNo}/delete")
+    public String delete(@PathVariable long boardNo,
+                         @RequestParam String conPwd,
+                         RedirectAttributes redirectAttributes
+    ) {
+        boolean delete = boardRepository.delete(boardNo, conPwd);
+        if(delete) {
+            return "redirect:/view/board";
+        }else {
+            redirectAttributes.addAttribute("status", false);
+            return "redirect:/view/{boardNo}/edit";
+        }
     }
 
 
