@@ -59,12 +59,12 @@ class MemoryBoardRepositoryTest {
     @Test
     void delete() {
         //given
-        Board board1 = new Board("title11", "contents11", "2020");
-        Board board2 = new Board("title22", "contents22", "2020");
+        Board board1 = new Board("title11", "contents11", "2020","testId1", "test");
+        Board board2 = new Board("title22", "contents22", "2020", "testId2", "test2");
         boardRepository.save(board1);
         boardRepository.save(board2);
         //when
-        boardRepository.delete(board1.getNo());
+        boardRepository.delete(board1.getNo(),"test");
         //than
         assertThat(boardRepository.findAll().size()).isEqualTo(1);
         assertThat(boardRepository.findByNo(board2.getNo())).isEqualTo(board2);
