@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import sj.simpleboard.domain.Board;
+import sj.simpleboard.service.BoardService;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemoryBoardRepositoryTest {
 
     BoardRepository boardRepository = new MemoryBoardRepository();
+    BoardService boardService = new BoardService(boardRepository);
 
     @AfterEach //수행하고 난 뒤
     void afterEach() {
@@ -64,8 +66,13 @@ class MemoryBoardRepositoryTest {
         boardRepository.save(board1);
         boardRepository.save(board2);
         //when
-        boardRepository.delete(board1.getNo(),"test");
+        String testPwd = "test";
+        boolean chkPwd = boardService.chkPwd(board1.getNo(), testPwd);
+        if(chkPwd) {
+            boardRepository.delete(board1.getNo());
+        }
         //than
+        assertThat(chkPwd).isEqualTo(true);
         assertThat(boardRepository.findAll().size()).isEqualTo(1);
         assertThat(boardRepository.findByNo(board2.getNo())).isEqualTo(board2);
     }
