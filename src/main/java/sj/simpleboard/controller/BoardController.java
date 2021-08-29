@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sj.simpleboard.domain.Board;
 import sj.simpleboard.repository.BoardRepository;
 import sj.simpleboard.repository.MemoryBoardRepository;
+import sj.simpleboard.service.BoardService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -23,11 +24,13 @@ import java.util.List;
 public class BoardController {
 
     private final BoardRepository boardRepository;
+    private final BoardService boardService;
 
-    public BoardController(BoardRepository boardRepository) {
+    //생성자 주입 - 생성자가 1개일경우에는 @Autowired를 안써도 된다
+    public BoardController(BoardRepository boardRepository, BoardService boardService) {
         this.boardRepository = boardRepository;
+        this.boardService = boardService;
     }
-
 
     @GetMapping("/board")
     public String board(Model model) {
@@ -79,8 +82,9 @@ public class BoardController {
                          @RequestParam String conPwd,
                          RedirectAttributes redirectAttributes
     ) {
-        boolean delete = boardRepository.delete(boardNo, conPwd);
-        if(delete) {
+        boolean chkPwd = boardService.chkPwd(boardNo, conPwd);
+        if(chkPwd) {
+            boardRepository.delete(boardNo);
             return "redirect:/view/board";
         }else {
             redirectAttributes.addAttribute("status", false);
