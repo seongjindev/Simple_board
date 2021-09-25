@@ -11,20 +11,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
-@Repository
+//@Slf4j
+//@Repository
 public class MemoryBoardRepository implements BoardRepository { //command + shift + T 테스트 코드
 
     private static final Map<Long, Board> store = new HashMap<>(); //동시성을 고려한다면 concurrentHashMap
     private static long sequence = 0L; //동시성을 고려한다면 AtomicLong
 
     @Override
-    public Board save(Board board) {
-        board.setNo(++sequence);
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
-        board.setDate(now);
-        store.put(board.getNo(), board);
-        return board;
+    public void save(Board board) {
+        board.setSeq(++sequence);
+        store.put(board.getSeq(), board);
     }
 
     @Override
@@ -35,10 +32,8 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
     @Override
     public void update(Long no, Board updateParam) {
         Board findNo = store.get(no);
-        String now = LocalDateTime.now().toString();
         findNo.setTitle(updateParam.getTitle());
         findNo.setContents(updateParam.getContents());
-        findNo.setDate(now);
     }
     @Override
     public List<Board> findAll() {
@@ -55,4 +50,9 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
         store.clear();
     }
 
+    @Override
+    public Board findNum() {
+        Board byNo = findByNo(sequence);
+        return byNo;
+    }
 }
