@@ -1,6 +1,7 @@
 package sj.simpleboard.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,14 +9,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sj.simpleboard.domain.Board;
 import sj.simpleboard.repository.BoardRepository;
 import sj.simpleboard.repository.MemoryBoardRepository;
+import sj.simpleboard.repository.MysqlBoardRepository;
 import sj.simpleboard.service.BoardService;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -27,7 +25,8 @@ public class BoardController {
     private final BoardService boardService;
 
     //생성자 주입 - 생성자가 1개일경우에는 @Autowired를 안써도 된다
-    public BoardController(BoardRepository boardRepository, BoardService boardService) {
+    public BoardController(MysqlBoardRepository boardRepository, BoardService boardService) {
+//    public BoardController(MemoryBoardRepository boardRepository, BoardService boardService) {
         this.boardRepository = boardRepository;
         this.boardService = boardService;
     }
@@ -53,9 +52,12 @@ public class BoardController {
 
     @PostMapping("/add")
     public String boardAdd(@ModelAttribute Board board, Model model) {
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
+        board.setConDate(now);
         boardRepository.save(board);
         model.addAttribute("board", board);
-        return "redirect:/view/board/" + board.getNo();
+        Board num = boardRepository.findNum();
+        return "redirect:/view/board/" + num.getSeq();
     }
 
     @GetMapping("/{boardNo}/edit")
@@ -67,14 +69,20 @@ public class BoardController {
 
     @PostMapping("/{boardNo}/edit")
     public String edit(@PathVariable long boardNo,
-                        @ModelAttribute Board board
+                        @RequestParam String conPwd,
+                        @ModelAttribute Board board,
+                       RedirectAttributes redirectAttributes
     ) {
-        Board beBoard = boardRepository.findByNo(boardNo);
+        boolean chkPwd = boardService.chkPwd(boardNo, conPwd);
+        if (chkPwd) {
+            redirectAttributes.addAttribute("status", false);
+            return "redirect:/view/{boardNo}/edit";
+        }
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
-        beBoard.setTitle(board.getTitle());
-        beBoard.setContents(board.getContents());
-        beBoard.setDate(now);
+        board.setConDate(now);
+        boardRepository.update(boardNo, board);
         return "redirect:/view/board/{boardNo}";
+
     }
 
     @PostMapping("/{boardNo}/delete")
@@ -84,21 +92,20 @@ public class BoardController {
     ) {
         boolean chkPwd = boardService.chkPwd(boardNo, conPwd);
         if(chkPwd) {
-            boardRepository.delete(boardNo);
-            return "redirect:/view/board";
-        }else {
             redirectAttributes.addAttribute("status", false);
             return "redirect:/view/{boardNo}/edit";
         }
+        boardRepository.delete(boardNo);
+        return "redirect:/view/board";
     }
 
 
-    @PostConstruct
-    public void init() {
-        Board board1 = new Board("글제목1", "내용1", "날짜1","testId1", "1234");
-        Board board2 = new Board("글제목2", "내용2", "날짜2", "testId2", "2345");
-        boardRepository.save(board1);
-        boardRepository.save(board2);
-    }
+//    @PostConstruct
+//    public void init() {
+//        Board board1 = new Board("글제목1", "내용1", "날짜1","testId1", "1234");
+//        Board board2 = new Board("글제목2", "내용2", "날짜2", "testId2", "2345");
+//        boardRepository.save(board1);
+//        boardRepository.save(board2);
+//    }
 
 }
