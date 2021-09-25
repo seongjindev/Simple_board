@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface BoardRepository {
 
-    Board save(Board board);
+    void save(Board board);
     Board findByNo(Long no);
+    Board findNum();
     List<Board> findAll();
     void update(Long no, Board updateParam);
     void delete(Long no);
