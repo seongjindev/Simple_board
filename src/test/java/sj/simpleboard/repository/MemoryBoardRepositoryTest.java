@@ -1,13 +1,11 @@
 package sj.simpleboard.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import sj.simpleboard.domain.Board;
 import sj.simpleboard.service.BoardService;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryBoardRepositoryTest {
 
@@ -24,10 +22,10 @@ class MemoryBoardRepositoryTest {
         //given
         Board board = new Board("title", "contents", "2020");
         //when
-        Board saveBoard = boardRepository.save(board);
+        boardRepository.save(board);
         //than
-        Board findBoard = boardRepository.findByNo(board.getNo());
-        assertThat(findBoard).isEqualTo(saveBoard);
+        Board findBoard = boardRepository.findByNo(board.getSeq());
+        assertThat(findBoard).isEqualTo(board);
     }
 
     @Test
@@ -35,11 +33,11 @@ class MemoryBoardRepositoryTest {
         //given
         Board board = new Board("title", "contents", "2020","testId", "1234");
         //when
-        Board saveBoard = boardRepository.save(board);
+        boardRepository.save(board);
         //than
-        Board findBoard = boardRepository.findByNo(board.getNo());
-        assertThat(findBoard.getConId()).isEqualTo(saveBoard.getConId());
-        assertThat(findBoard.getConPwd()).isEqualTo(saveBoard.getConPwd());
+        Board findBoard = boardRepository.findByNo(board.getSeq());
+        assertThat(findBoard.getConId()).isEqualTo(board.getConId());
+        assertThat(findBoard.getConPwd()).isEqualTo(board.getConPwd());
     }
 
     @Test
@@ -50,11 +48,11 @@ class MemoryBoardRepositoryTest {
         boardRepository.save(board1);
         boardRepository.save(board2);
         //when
-        boardRepository.update(board1.getNo(), board2);
+        boardRepository.update(board1.getSeq(), board2);
         //than
         assertThat(board1.getTitle()).isEqualTo(board2.getTitle());
         assertThat(board1.getContents()).isEqualTo(board2.getContents());
-        assertThat(board1.getDate()).isNotEqualTo(board2.getDate());
+        assertThat(board1.getConDate()).isEqualTo(board2.getConDate());
 
     }
 
@@ -67,14 +65,14 @@ class MemoryBoardRepositoryTest {
         boardRepository.save(board2);
         //when
         String testPwd = "test";
-        boolean chkPwd = boardService.chkPwd(board1.getNo(), testPwd);
+        boolean chkPwd = boardService.chkPwd(board1.getSeq(), testPwd);
         if(chkPwd) {
-            boardRepository.delete(board1.getNo());
+            boardRepository.delete(board1.getSeq());
         }
         //than
         assertThat(chkPwd).isEqualTo(true);
         assertThat(boardRepository.findAll().size()).isEqualTo(1);
-        assertThat(boardRepository.findByNo(board2.getNo())).isEqualTo(board2);
+        assertThat(boardRepository.findByNo(board2.getSeq())).isEqualTo(board2);
     }
 
 }
