@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface BoardRepository {
 
-    void save(Board board);
-    Board findByNo(Long no);
-    Board findNum();
-    List<Board> findAll();
-    void update(Long no, Board updateParam);
-    void delete(Long no);
+    void boardSave(Board board);
+    Board boardFindByNo(Long no);
+    Board boardFindNum();
+    List<Board> boardFindAll();
+    void boardUpdate(Long no, Board updateParam);
+    void boardDelete(Long no);
     void clearStore();
 }

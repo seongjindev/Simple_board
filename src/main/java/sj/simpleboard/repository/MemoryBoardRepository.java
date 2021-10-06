@@ -19,29 +19,29 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
     private static long sequence = 0L; //동시성을 고려한다면 AtomicLong
 
     @Override
-    public void save(Board board) {
+    public void boardSave(Board board) {
         board.setSeq(++sequence);
         store.put(board.getSeq(), board);
     }
 
     @Override
-    public Board findByNo(Long no) { //null이 발생할 수 있으니 null을 처리할 때 optional을 사용한다
+    public Board boardFindByNo(Long no) { //null이 발생할 수 있으니 null을 처리할 때 optional을 사용한다
         return store.get(no);
     }
 
     @Override
-    public void update(Long no, Board updateParam) {
+    public void boardUpdate(Long no, Board updateParam) {
         Board findNo = store.get(no);
         findNo.setTitle(updateParam.getTitle());
         findNo.setContents(updateParam.getContents());
     }
     @Override
-    public List<Board> findAll() {
+    public List<Board> boardFindAll() {
         return new ArrayList<>(store.values());
     }
 
     @Override
-    public void delete(Long no) {
+    public void boardDelete(Long no) {
         store.remove(no);
     }
 
@@ -51,8 +51,8 @@ public class MemoryBoardRepository implements BoardRepository { //command + shif
     }
 
     @Override
-    public Board findNum() {
-        Board byNo = findByNo(sequence);
+    public Board boardFindNum() {
+        Board byNo = boardFindByNo(sequence);
         return byNo;
     }
 }
