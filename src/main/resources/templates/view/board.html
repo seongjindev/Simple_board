@@ -12,6 +12,9 @@
     </div>
     <div class="row">
         <div class="col">
+            <button class="btn btn-primary float-start"
+                    onclick="location.href='home.html'"
+                    th:onclick="|location.href='@{/home}'|">홈</button>
             <button class="btn btn-primary float-end"
                     onclick="location.href='boardAdd.html'"
                     th:onclick="|location.href='@{/view/add}'|">글 등록</button>
