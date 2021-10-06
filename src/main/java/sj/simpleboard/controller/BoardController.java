@@ -33,14 +33,14 @@ public class BoardController {
 
     @GetMapping("/board")
     public String board(Model model) {
-        List<Board> boards = boardRepository.findAll();
+        List<Board> boards = boardRepository.boardFindAll();
         model.addAttribute("boards", boards);
         return "view/board";
     }
 
     @GetMapping("/board/{boardNo}")
     public String boardDetail(@PathVariable long boardNo, Model model) {
-        Board board = boardRepository.findByNo(boardNo);
+        Board board = boardRepository.boardFindByNo(boardNo);
         model.addAttribute("board", board);
         return "view/boardContents";
     }
@@ -54,15 +54,15 @@ public class BoardController {
     public String boardAdd(@ModelAttribute Board board, Model model) {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
         board.setConDate(now);
-        boardRepository.save(board);
+        boardRepository.boardSave(board);
         model.addAttribute("board", board);
-        Board num = boardRepository.findNum();
+        Board num = boardRepository.boardFindNum();
         return "redirect:/view/board/" + num.getSeq();
     }
 
     @GetMapping("/{boardNo}/edit")
     public String boardEditForm(@PathVariable long boardNo, Model model) {
-        Board board = boardRepository.findByNo(boardNo);
+        Board board = boardRepository.boardFindByNo(boardNo);
         model.addAttribute("board", board);
         return "view/boardEdit";
     }
@@ -80,7 +80,7 @@ public class BoardController {
         }
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
         board.setConDate(now);
-        boardRepository.update(boardNo, board);
+        boardRepository.boardUpdate(boardNo, board);
         return "redirect:/view/board/{boardNo}";
 
     }
@@ -95,9 +95,10 @@ public class BoardController {
             redirectAttributes.addAttribute("status", false);
             return "redirect:/view/{boardNo}/edit";
         }
-        boardRepository.delete(boardNo);
+        boardRepository.boardDelete(boardNo);
         return "redirect:/view/board";
     }
+
 
 
 //    @PostConstruct
