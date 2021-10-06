@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sj.simpleboard.repository.MysqlBoardRepository">
-    <insert id="save" parameterType="sj.simpleboard.domain.Board">
+    <insert id="boardSave" parameterType="sj.simpleboard.domain.Board">
     /* insertProduct */
         INSERT INTO
             mybatistest.simple_board (
@@ -19,16 +19,16 @@
                #{conPwd}
                )
     </insert>
-    <select id="findByNo" resultType="sj.simpleboard.domain.Board">
+    <select id="boardFindByNo" resultType="sj.simpleboard.domain.Board">
         SELECT *
         FROM mybatistest.simple_board
         WHERE seq = #{no};
     </select>
-    <select id="findAll" resultType="sj.simpleboard.domain.Board">
+    <select id="boardFindAll" resultType="sj.simpleboard.domain.Board">
         SELECT *
         FROM mybatistest.simple_board;
     </select>
-    <update id="update">
+    <update id="boardUpdate">
         UPDATE mybatistest.simple_board
         SET
             title = #{arg1.title},
@@ -37,10 +37,10 @@
         WHERE
             seq = #{arg0};
     </update>
-    <delete id="delete">
+    <delete id="boardDelete">
         DELETE FROM mybatistest.simple_board WHERE seq = #{no};
     </delete>
-    <select id="findNum" resultType="sj.simpleboard.domain.Board">
+    <select id="boardFindNum" resultType="sj.simpleboard.domain.Board">
         SELECT MAX(seq) AS seq FROM mybatistest.simple_board;
     </select>
 </mapper>
