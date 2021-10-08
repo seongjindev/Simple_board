@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import sj.simpleboard.domain.Board;
+import sj.simpleboard.domain.Member;
 
 import java.util.List;
 
@@ -29,11 +30,25 @@ class MysqlBoardRepositoryTest {
         //given
         Board board = new Board("title", "contents", "2020");
         //when
-        mysqlBoardRepository.save(board);
-        Board num = mysqlBoardRepository.findNum();
+        mysqlBoardRepository.boardSave(board);
+        Board num = mysqlBoardRepository.boardFindNum();
         board.setSeq(num.getSeq());
         //than
-        Board findBoard = mysqlBoardRepository.findByNo(num.getSeq());
+        Board findBoard = mysqlBoardRepository.boardFindByNo(num.getSeq());
         assertThat(findBoard).isEqualTo(board);
+    }
+    @Test
+    @Transactional
+    void 회원가입() {
+        //given
+        Member member = new Member("testId1", "testPwd1", "testNM1");
+        //when
+        mysqlBoardRepository.memberSave(member);
+        String memberId = member.getMemberId();
+        Member findMember = mysqlBoardRepository.memberFindById(memberId);
+        //then
+        assertThat(member.getMemberId()).isEqualTo(findMember.getMemberId());
+        assertThat(member.getMemberPwd()).isEqualTo(findMember.getMemberPwd());
+        assertThat(member.getMemberNM()).isEqualTo(findMember.getMemberNM());
     }
 }
