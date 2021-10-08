@@ -22,21 +22,21 @@
     <h4 class="mb-3">회원 정보 입력</h4>
     <form action="" th:action th:object="${member}" method="post">
         <div>
-            <label for="loginId">로그인 ID</label>
-            <input type="text" id="loginId" th:field="*{memberId}" class="form-control"
+            <label for="memberId">로그인 ID</label>
+            <input type="text" id="memberId" th:field="*{memberId}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{memberId}" />
         </div>
         <div>
-            <label for="password">비밀번호</label>
-            <input type="password" id="password" th:field="*{memberPwd}"
+            <label for="memberPwd">비밀번호</label>
+            <input type="password" id="memberPwd" th:field="*{memberPwd}"
                    class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{memberPwd}" />
         </div>
         <div>
-            <label for="name">이름</label>
-            <input type="text" id="name" th:field="*{memberNM}" class="form-control"
+            <label for="memberNM">이름</label>
+            <input type="text" id="memberNM" th:field="*{memberNM}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{memberNM}" />
         </div>
