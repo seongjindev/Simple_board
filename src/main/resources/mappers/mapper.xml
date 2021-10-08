@@ -43,4 +43,22 @@
     <select id="boardFindNum" resultType="sj.simpleboard.domain.Board">
         SELECT MAX(seq) AS seq FROM mybatistest.simple_board;
     </select>
+    <insert id="memberSave">
+    /* insertProduct */
+        INSERT INTO
+            mybatistest.members (
+               member_id,
+               member_pwd,
+               member_nm
+               )
+        VALUES(
+               #{memberId},
+               #{memberPwd},
+               #{memberNM}
+               )
+    </insert>
+    <select id="memberFindById" resultType="sj.simpleboard.domain.Member">
+        SELECT member_id memberId, member_pwd memberPwd, member_nm memberNM FROM mybatistest.members
+        WHERE member_id = #{id};
+    </select>
 </mapper>
