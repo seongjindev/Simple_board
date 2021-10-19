@@ -1,24 +1,13 @@
 package sj.simpleboard.service;
 
-import org.springframework.stereotype.Service;
 import sj.simpleboard.domain.Board;
-import sj.simpleboard.repository.BoardRepository;
 
-@Service
-public class BoardService {
+import java.util.ArrayList;
 
-    private final BoardRepository boardRepository;
+public interface BoardService {
 
-    public BoardService(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
-    }
-
-    public boolean chkPwd(long boardNo, String conPwd) {
-        Board findBoard = boardRepository.findByNo(boardNo);
-        if(findBoard.getConPwd().equals(conPwd)) {
-            return true;
-        }
-        return false;
-    };
-
+    boolean chkPwd(long boardNo, String conPwd);
+    int maxConCnt();
+    ArrayList<Integer> pageNum();
+    Board pageContents();
 }
