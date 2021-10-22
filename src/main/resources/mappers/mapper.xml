@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sj.simpleboard.repository.MysqlBoardRepository">
-    <insert id="boardSave" parameterType="sj.simpleboard.domain.Board">
+    <insert id="boardSave">
     /* insertProduct */
         INSERT INTO
             mybatistest.simple_board (
@@ -61,4 +61,14 @@
         SELECT member_id memberId, member_pwd memberPwd, member_nm memberNM FROM mybatistest.members
         WHERE member_id = #{id};
     </select>
+
+    <select id="LastCon" resultType="_int">
+        SELECT count(title) FROM mybatistest.simple_board;
+    </select>
+
+    <select id="boardFindSubAll" resultType="sj.simpleboard.domain.Board">
+        SELECT * FROM mybatistest.simple_board order by seq desc limit #{arg0}, #{arg1};
+    </select>
+
+
 </mapper>

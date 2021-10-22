@@ -14,6 +14,5 @@ public interface BoardRepository {
     void boardUpdate(Long no, Board updateParam);
     void boardDelete(Long no);
     void clearStore();
-    void memberSave(Member member);
-    Member memberFindById(String id);
+
 }

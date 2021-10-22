@@ -6,6 +6,10 @@ import sj.simpleboard.domain.Board;
 import sj.simpleboard.domain.Member;
 import sj.simpleboard.repository.BoardRepository;
 import sj.simpleboard.repository.MysqlBoardRepository;
+import sj.simpleboard.session.SessionConst;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Service
@@ -26,14 +30,19 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
-    public boolean chkLogin(String memberId, String memberPwd) {
+    public boolean chkPwd(String memberId, String memberPwd) {
         Member member = mysqlBoardRepository.memberFindById(memberId);
         if (member == null) {
             return false;
         }
-        if (member.getMemberPwd().equals(memberPwd)) {
-            return true;
+        if (!member.getMemberPwd().equals(memberPwd)) {
+            return false;
         }
-        return false;
+        return true;
+    }
+    public void newSession(HttpServletRequest request, Member member) {
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
+        session.setAttribute("MemberId",member.getMemberId());
     }
 }
