@@ -34,13 +34,33 @@
             <tbody>
             <tr th:each="board : ${boards}">
                 <td th:text="${board.seq}">1</td>
-                <td><a href="boardContents.html" th:href="@{|board/${board.seq}|}" th:text="${board.title}">글제목</a></td>
+                <td><a href="boardContents.html" th:href="@{|${boardNo}/${board.seq}|}" th:text="${board.title}">글제목</a></td>
 <!--                <td><a href="boardContents.html" th:href="@{|${board.seq}|}" th:text="${board.title}">글제목</a></td>-->
                 <td th:text="${board.conId}">아이디</td>
                 <td th:text="${board.conDate}">날짜</td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <!--    // paging button-->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <nav>
+                    <ul class="pagination" style="justify-content: center">
+                        <li class="page-item"><a class="page-link" href="#" th:href="@{|/view/board/1|}">&laquo;</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:href="@{|/view/board/{boardNo}|( boardNo=(${boardNo}-1==0 ? 1 : ${boardNo}-1) )}">&lt;</a></li>
+                        <th:block th:with="end = ${maxCon}">
+                            <li class="page-item" th:classappend="${boardNo} == ${num} ? active" th:each="num : ${#numbers.sequence(1, end)}">
+                                <a class="page-link" href="#" th:href="@{|/view/board/${num}|}" th:text="${num}"> 1 </a>
+                            </li>
+                        </th:block>
+                        <li class="page-item"><a class="page-link" href="#" th:href="@{|/view/board/{boardNo}|(boardNo= (${boardNo}+1 > ${maxCon} ? ${maxCon} : ${boardNo}+1) )}">&gt;</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:href="@{|/view/board/${maxCon}|}">&raquo;</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 </div> <!-- /container -->
 </body>

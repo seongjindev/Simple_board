@@ -17,7 +17,7 @@
     </div>
     <!-- 추가 -->
     <h2 th:if="${param.status}" th:text="'비밀번호가 틀렸습니다'"></h2>
-    <form action="boardContents.html" th:action="|/view/${board.seq}/edit|" method="post">
+    <form action="boardContents.html" th:action="|/view/board/${boardNo}/edit/${board.seq}|" method="post">
         <div>
             <label for="seq">No</label>
             <input type="text" id="seq" name="seq" class="form-control" value="1" th:value="${board.seq}"
@@ -29,14 +29,14 @@
             <input type="text" id="title" name="title" class="form-control" value="제목" th:value="${board.title}">
             </p>
         </div>
-        <div>
-            <div style="display:inline">
-                <label for="conId" style="width: 10%; text-align: center; height:30px" >아이디</label>
-                <input style="width:30%;display:inline-block; height:30px" type="text" id="conId" name="conId" th:value="${board.conId}" class="form-control" placeholder="아이디을 입력하세요" readonly>
-                <label for="conPwd" style="width: 15%; text-align: center; height:30px">비밀번호</label>
-                <input style="width:40%;display:inline-block; height:30px" type="password" id="conPwd" name="conPwd" class="form-control" placeholder="">
-            </div>
-        </div>
+<!--        <div>-->
+<!--            <div style="display:inline">-->
+<!--                <label for="conId" style="width: 10%; text-align: center; height:30px" >아이디</label>-->
+<!--                <input style="width:30%;display:inline-block; height:30px" type="text" id="conId" name="conId" th:value="${board.conId}" class="form-control" placeholder="아이디을 입력하세요" readonly>-->
+<!--                <label for="conPwd" style="width: 15%; text-align: center; height:30px">비밀번호</label>-->
+<!--                <input style="width:40%;display:inline-block; height:30px" type="password" id="conPwd" name="conPwd" class="form-control" placeholder="">-->
+<!--            </div>-->
+<!--        </div>-->
         <div>
             <label for="contents">글 내용</label>
             <textarea type="text" th:text="${board.contents}" id="contents" name="contents" class="form-control"
@@ -50,14 +50,14 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg"
-                        th:formaction="@{/view/{boardNo}/delete(boardNo=${board.seq})}"
+                        th:formaction="@{/view/board/{boardNo}/delete/{detailNo}(boardNo=${boardNo}, detailNo=${board.seq})}"
                         type="submit">삭제</button>
                         <!--th:onclick="|location.href='@{/view/{boardNo}/delete(boardNo=${board.seq})}'|"-->
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='board.html'"
-                        th:onclick="|location.href='@{/view/board/{boardNo}(boardNo=${board.seq})}'|" type="button">취소</button>
+                        th:onclick="|location.href='@{/view/board/{boardNo}/{detailNo}(boardNo=${boardNo}, detailNo=${board.seq})}'|" type="button">취소</button>
             </div>
         </div>
     </form>

@@ -27,14 +27,14 @@
                value="제목" th:value="${board.title}" readonly>
         </p>
     </div>
-    <div>
-        <div style="display:inline">
-            <label for="conId" style="width: 10%; text-align: center; height:30px" >아이디</label>
-            <input style="width:30%;display:inline-block; height:30px" type="text" id="conId" th:field="${board.conId}" class="form-control" readonly>
-            <label for="conPwd" style="width: 15%; text-align: center; height:30px">비밀번호</label>
-            <input style="width:40%;display:inline-block; height:30px" type="text" id="conPwd" value="" class="form-control" readonly>
-        </div>
-    </div>
+<!--    <div>-->
+<!--        <div style="display:inline">-->
+<!--            <label for="conId" style="width: 10%; text-align: center; height:30px" >아이디</label>-->
+<!--            <input style="width:30%;display:inline-block; height:30px" type="text" id="conId" th:field="${board.conId}" class="form-control" readonly>-->
+<!--            <label for="conPwd" style="width: 15%; text-align: center; height:30px">비밀번호</label>-->
+<!--            <input style="width:40%;display:inline-block; height:30px" type="text" id="conPwd" value="" class="form-control" readonly>-->
+<!--        </div>-->
+<!--    </div>-->
     <div>
         <label for="contents">내용</label>
         <textarea type="text" id="contents" name="contents" class="form-control"
@@ -45,12 +45,12 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/view/{boardNo}/edit(boardNo=${board.seq})}'|" type="button">글 수정</button>
+                    th:onclick="|location.href='@{/view/board/{boardNo}/edit/{detailNo}(boardNo=${boardNo},detailNo=${board.seq})}'|" type="button">글 수정</button>
         </div>
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg"
                     onclick="location.href='board.html'"
-                    th:onclick="|location.href='@{/view/board}'|" type="button">게시판으로</button>
+                    th:onclick="|location.href='@{/view/board/{boardNo}(boardNo=${boardNo})}'|" type="button">게시판으로</button>
         </div>
     </div>
 </div> <!-- /container -->
