@@ -7,12 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import sj.simpleboard.controller.LoginController;
 import sj.simpleboard.domain.Member;
+import sj.simpleboard.repository.MysqlBoardRepository;
 
 @SpringBootTest
 class MemberServiceImplTest {
 
     @Autowired
     MemberServiceImpl memberServiceImpl;
+    @Autowired
+    MysqlBoardRepository mysqlBoardRepository;
 
 
     @Test
@@ -41,9 +44,11 @@ class MemberServiceImplTest {
         memberServiceImpl.join(member1);
         memberServiceImpl.join(member2);
         //when
-        boolean chkIdPwd1 = memberServiceImpl.chkLogin(memberId1,memberPwd1);
-        boolean chkIdPwd2 = memberServiceImpl.chkLogin(memberId2,"aaaaa");
-        boolean chkIdPwd3 = memberServiceImpl.chkLogin("none","aaaaa");
+        Member FindMember1 = mysqlBoardRepository.memberFindById(memberId1);
+        Member FindMember2 = mysqlBoardRepository.memberFindById(memberId2);
+        boolean chkIdPwd1 = memberServiceImpl.chkPwd(memberId1, FindMember1.getMemberPwd());
+        boolean chkIdPwd2 = memberServiceImpl.chkPwd(memberId2, memberPwd2);
+        boolean chkIdPwd3 = memberServiceImpl.chkPwd("none","aaaaa");
 
         //then
         Assertions.assertThat(chkIdPwd1).isEqualTo(true);
