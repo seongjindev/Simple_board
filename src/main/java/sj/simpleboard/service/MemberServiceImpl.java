@@ -10,6 +10,7 @@ import sj.simpleboard.session.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @Service
@@ -26,6 +27,14 @@ public class MemberServiceImpl implements MemberService {
         if (findMember != null) {
             return false;
         }
+
+        SHA256 sha256 = new SHA256();
+        try {
+            member.setMemberPwd(sha256.encrypt(member.getMemberPwd()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         mysqlBoardRepository.memberSave(member);
         return true;
     }
