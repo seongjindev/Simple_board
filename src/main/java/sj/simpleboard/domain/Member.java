@@ -1,6 +1,7 @@
 package sj.simpleboard.domain;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ public class Member {
     @Length(max = 30)
     private String memberId;
     @NotEmpty
+    @Range(min = 8, max = 16)
     private String memberPwd;
     @NotEmpty
     private String memberNM;
@@ -18,7 +20,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(@NotNull @Length(max = 30) String memberId, @NotEmpty String memberPwd, @NotEmpty String memberNM) {
+    public Member(@NotNull @Length(max = 30) String memberId, @NotEmpty @Range(min = 8, max = 16) String memberPwd, @NotEmpty String memberNM) {
         this.memberId = memberId;
         this.memberPwd = memberPwd;
         this.memberNM = memberNM;
